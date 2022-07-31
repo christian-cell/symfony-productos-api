@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Productos;
 use App\Repository\ProductosRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,15 +36,40 @@ class ProductosController extends AbstractController
             'descuento' => $producto->getDescuento(),
             );
         }
+
+        dump($array_producto);die();
         
         return new JsonResponse($array_producto);
     }
 
+    /**
+    * @Route("/descuentos/{descuento}", name="app_productos_descuentos", methods={"GET"})
+    */
+    public function findByDescount($descuento ,ProductosRepository $productosRepository , EntityManagerInterface $em):Response    
+    {
+        /* 
+        * traemos todos los productos cuyo descuento sea superior al parametro descuento
+        * FindGreaterDiscount retorna queryBuilder result
+        */
+        $productos = $productosRepository->FindGreaterDiscount($descuento);
+        // funciona return new Response(json_encode($productos));
+        return new JsonResponse($productos);
+    }
+
      /**
-     * @Route("/new", name="app_productos_new", methods={"POST"})
-     */
+    * @Route("/descuentos/prices", name="app_productos_descuentos", methods={"GET"})
+    */
+    public function sumAllPrices(ProductosRepository $productosRepository , EntityManagerInterface $em)/* :Response */    
+    {
+        
+    }
+
+    /**
+    * @Route("/new", name="app_productos_new", methods={"POST"})
+    */
     public function new(Request $request, ProductosRepository $productosRepository , EntityManagerInterface $em): Response 
     {
+         
         $request = $this->transformJsonBody($request);
       
 

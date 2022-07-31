@@ -39,6 +39,47 @@ class ProductosRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Producto[]
+     */
+    public function FindGreaterDiscount(int $descuento/* , bool $includeUnavailableProducts = false */): array
+    {
+         // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.descuento > :descuento')
+            ->setParameter('descuento', $descuento)
+            ->orderBy('p.descuento', 'ASC');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**  
+     * @return Producto[]
+     */
+    public function SumAllPrices()/* :array */
+    {
+        /* $qb = $this->createQueryBuilder('p')
+        ->select('SUM(precio)')
+        ->from('productos' , 'p');
+
+        dump($qb); */
+
+        /* $qb = $this->createQueryBuilder('p')
+            ->where('') */
+    }
+
+    /* 
+    qb->select(array('u')) // string 'u' is converted to array internally
+   ->from('User', 'u')
+   ->where($qb->expr()->orX(
+       $qb->expr()->eq('u.id', '?1'),
+       $qb->expr()->like('u.nickname', '?2')
+   ))
+   ->orderBy('u.surname', 'ASC');
+    */
+
+
 //    /**
 //     * @return Productos[] Returns an array of Productos objects
 //     */
