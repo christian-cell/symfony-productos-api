@@ -137,6 +137,7 @@ y vamos a descomentar el Rol de administrador en la penúltima línea y creamos 
 administradores con su correspondiente controlador
 
 PARA CORRER EL DUMPER dentro del contenedor de php
+composer require symfony/debug-bundle --dev
 $ bin/console server:dump
 
 Para debuggear rutas
